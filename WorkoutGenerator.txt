@@ -1,0 +1,118 @@
+#!/bin/bash
+
+function humanspecs() {
+  echo "Please enter your name:"
+  read name
+  echo "Please enter your age:"
+  read age
+  echo "Please enter your height (in feet and inches, e.g., 5'8):"
+  read height
+  echo "Please enter your weight (in pounds):"
+  read weight_pounds
+
+  personal_info_file="personal_info.txt"
+
+  echo "Name: $name" > $personal_info_file
+  echo "Age: $age" >> $personal_info_file
+  echo "Height: $height" >> $personal_info_file
+  echo "Weight: $weight_pounds pounds" >> $personal_info_file
+
+  echo "Your personal information has been saved to $personal_info_file"
+}
+
+function create_progress_folder() {
+  local current_month=$(date +%Y-%m)
+  local progress_folder="progress-pictures/$current_month"
+
+  if [ ! -d "$progress_folder" ]; then
+    mkdir -p "$progress_folder"
+    echo "Created a new folder for this month's progress pictures: $progress_folder"
+  else
+    echo "This month's progress pictures folder already exists: $progress_folder"
+  fi
+}
+
+function workout_generator() {
+  local day_of_week=$(date +%A)
+  local day_of_year=$(date +%j)
+  local workout_type=""
+
+  if (( day_of_year % 2 == 0 )); then
+    workout_type="A"
+  else
+    workout_type="B"
+  fi
+
+  case $day_of_week in
+    Monday)
+      echo "Today's workout: Chest"
+      if [ "$workout_type" = "A" ]; then
+        echo "1. Bench Press: 4 sets x 8-10 reps"
+        echo "2. Incline Dumbbell Press: 4 sets x 8-10 reps"
+        echo "3. Push-Ups: 3 sets x 10-15 reps"
+      else
+        echo "1. Dumbbell Chest Press: 4 sets x 8-10 reps"
+        echo "2. Chest Fly: 4 sets x 8-10 reps"
+        echo "3. Decline Bench Press: 3 sets x 10-15 reps"
+      fi
+      ;;
+          Tuesday)
+      echo "Today's workout: Back"
+      if [ "$workout_type" = "A" ]; then
+        echo "1. Pull-Ups: 4 sets x 8-10 reps"
+        echo "2. Bent Over Rows: 4 sets x 8-10 reps"
+        echo "3. Deadlifts: 3 sets x 5 reps"
+      else
+        echo "1. Chin-Ups: 4 sets x 8-10 reps"
+        echo "2. Seated Cable Rows: 4 sets x 8-10 reps"
+        echo "3. T-Bar Rows: 3 sets x 10-15 reps"
+      fi
+      ;;
+    Wednesday)
+      echo "Today's workout: Legs"
+      if [ "$workout_type" = "A" ]; then
+        echo "1. Squats: 4 sets x 8-10 reps"
+        echo "2. Lunges: 4 sets x 8-10 reps"
+        echo "3. Leg Press: 3 sets x 10-15 reps"
+      else
+        echo "1. Front Squats: 4 sets x 8-10 reps"
+        echo "2. Bulgarian Split Squats: 4 sets x 8-10 reps"
+        echo "3. Romanian Deadlifts: 3 sets x 10-15 reps"
+      fi
+      ;;
+    Thursday)
+      echo "Today's workout: Shoulders"
+      if [ "$workout_type" = "A" ]; then
+        echo "1. Overhead Press: 4 sets x 8-10 reps"
+        echo "2. Lateral Raises: 4 sets x 8-10 reps"
+        echo "3. Front Raises: 3 sets x 10-15 reps"
+      else
+        echo "1. Dumbbell Shoulder Press: 4 sets x 8-10 reps"
+        echo "2. Upright Rows: 4 sets x 8-10 reps"
+        echo "3. Rear Delt Fly: 3 sets x 10-15 reps"
+      fi
+      ;;
+    Friday)
+      echo "Today's workout: Arms"
+      if [ "$workout_type" = "A" ]; then
+        echo "1. Bicep Curls: 4 sets x 8-10 reps"
+        echo "2. Tricep Dips: 4 sets x 8-10 reps"
+        echo "3. Hammer Curls: 3 sets x 10-15 reps"
+        else
+        echo "1. Bicep Curls: 4 sets x 8-10 reps"
+        echo "2. Tricep Extensions: 3 sets x 12 reps"
+        echo "3. Wide Grip Pullup : 4 sets x 10 reps"
+      fi
+      ;;
+    Saturday|Sunday)
+      echo "Rest day. No workout today."
+      ;;
+    *)
+      echo "Invalid day. Please check your system's date."
+      ;;
+  esac
+}
+
+workout_generator
+create_progress_folder
+humanspecs
